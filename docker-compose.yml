@@ -94,10 +94,11 @@ services:
     ports:
       - "${VALKEY_PORT:-6379}:6379"
     healthcheck:
-      test: ["CMD-SHELL", "sh -c 'valkey-cli ping'"]
+      test: ["CMD-SHELL", "sh -c 'valkey-cli ping | grep -q PONG'"]
       interval: 10s
       timeout: 5s
       retries: 3
+      start_period: 30s
 
   neo4j:
     image: graphstack/dozerdb:5.26.27.0@sha256:9b54d6b3a98a76c00bd23e8e78d8c82081ff168162aebd47b25c234e092cb0a0
