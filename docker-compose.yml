@@ -8,7 +8,7 @@ services:
   api-init:
     image: busybox:1.37.0@sha256:9532d8c39891ca2ecde4d30d7710e01fb739c87a8b9299685c63704296b16028
     volumes:
-      - ./_data/api:/data
+      - ../files/api:/data
     command: ["sh", "-c", "chown -R 1000:1000 /data"]
     restart: "no"
 
@@ -22,7 +22,7 @@ services:
     ports:
       - "${DJANGO_PORT:-8080}:${DJANGO_PORT:-8080}"
     volumes:
-      - ./_data/api:/home/prowler/.config/prowler-api
+      - ../files/api:/home/prowler/.config/prowler-api
       - output:/tmp/prowler_api_output
     depends_on:
       api-init:
@@ -66,7 +66,7 @@ services:
     restart: unless-stopped
     hostname: "postgres-db"
     volumes:
-      - ./_data/postgres:/var/lib/postgresql/data
+      - ../files/postgres:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=${POSTGRES_ADMIN_USER}
       - POSTGRES_PASSWORD=${POSTGRES_ADMIN_PASSWORD}
@@ -87,7 +87,7 @@ services:
     restart: unless-stopped
     hostname: "valkey"
     volumes:
-      - ./_data/valkey:/data
+      - ../files/valkey:/data
     env_file:
       - path: .env
         required: false
@@ -105,7 +105,7 @@ services:
     restart: unless-stopped
     hostname: "neo4j"
     volumes:
-      - ./_data/neo4j:/data
+      - ../files/neo4j:/data
     environment:
       # We can't add our .env file because some of our current variables are not compatible with Neo4j env vars
       # Auth
